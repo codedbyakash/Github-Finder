@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Finder - Discover Developer Profiles</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span class="logo-text">GitHub Finder</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-section="search">Search</a>
+                <a href="#" class="nav-link" data-section="trending">Trending</a>
+                <a href="#" class="nav-link" data-section="about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Section -->
+    <section id="searchSection" class="section active">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Discover GitHub Profiles</h1>
+                <p class="hero-subtitle">Search and explore developer profiles, repositories, and contributions</p>
+                
+                <!-- Search Box -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Enter GitHub username...">
+                        <button id="searchBtn" class="search-btn">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loader" class="loader hidden">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message hidden">
+            <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p id="errorText">User not found. Please try another username.</p>
+        </div>
+
+        <!-- User Profile Section -->
+        <div id="userProfile" class="user-profile hidden">
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <img id="userAvatar" class="avatar" src="" alt="User Avatar">
+                        <div class="profile-info">
+                            <h2 id="userName" class="user-name"></h2>
+                            <p id="userBio" class="user-bio"></p>
+                            <div class="user-meta">
+                                <span id="userLocation" class="meta-item hidden">
+                                    <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    <span class="location-text"></span>
+                                </span>
+                                <span id="userCompany" class="meta-item hidden">
+                                    <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 21h18"></path>
+                                        <path d="M5 21V7l8-4v18"></path>
+                                        <path d="M19 21V11l-6-4"></path>
+                                        <rect x="9" y="9" width="4" height="4"></rect>
+                                        <rect x="9" y="14" width="4" height="4"></rect>
+                                        <path d="M4 11h1"></path>
+                                        <path d="M4 15h1"></path>
+                                    </svg>
+                                    <span class="company-text"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-number" id="publicRepos">0</div>
+                            <div class="stat-label">Repositories</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="followers">0</div>
+                            <div class="stat-label">Followers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="following">0</div>
+                            <div class="stat-label">Following</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="publicGists">0</div>
+                            <div class="stat-label">Gists</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <a id="githubLink" href="" target="_blank" class="btn btn-primary">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            View on GitHub
+                        </a>
+                        <button id="shareBtn" class="btn btn-secondary">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                            Share Profile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Repositories Section -->
+                <div class="repos-section">
+                    <h3 class="section-title">Latest Repositories</h3>
+                    <div id="reposList" class="repos-grid">
+                        <!-- Repos will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Section -->
+    <section id="trendingSection" class="section">
+        <div class="content-container">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Trending Repositories</h1>
+                    <p class="hero-subtitle">Discover popular repositories and developers</p>
+                    
+                    <!-- Filter Options -->
+                    <div class="filter-container">
+                        <select id="languageFilter" class="filter-select">
+                            <option value="">All Languages</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="java">Java</option>
+                            <option value="typescript">TypeScript</option>
+                            <option value="go">Go</option>
+                            <option value="rust">Rust</option>
+                            <option value="php">PHP</option>
+                            <option value="c++">C++</option>
+                        </select>
+                        <select id="timeFilter" class="filter-select">
+                            <option value="daily">Today</option>
+                            <option value="weekly" selected>This Week</option>
+                            <option value="monthly">This Month</option>
+                        </select>
+                        <button id="fetchTrending" class="search-btn">Get Trending</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending Loading -->
+            <div id="trendingLoader" class="loader hidden">
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Trending Repositories -->
+            <div id="trendingRepos" class="trending-content">
+                <div class="repos-grid" id="trendingReposList">
+                    <!-- Trending repos will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="aboutSection" class="section">
+        <div class="content-container">
+            <div class="about-content">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1 class="hero-title">About GitHub Finder</h1>
+                        <p class="hero-subtitle">Your gateway to exploring the GitHub universe</p>
+                    </div>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </div>
+                        <h3>User Search</h3>
+                        <p>Quickly find and explore GitHub user profiles with detailed information about their repositories, followers, and contributions.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                        </div>
+                        <h3>Repository Explorer</h3>
+                        <p>Browse through user repositories with detailed stats including stars, forks, programming languages, and recent activity.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            </svg>
+                        </div>
+                        <h3>Trending Content</h3>
+                        <p>Stay up-to-date with the most popular repositories and trending developers in the GitHub community.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                        </div>
+                        <h3>Easy Sharing</h3>
+                        <p>Share interesting profiles and repositories with others through built-in sharing functionality.</p>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <h2>Built With</h2>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-name">HTML5</span>
+                            <span class="tech-description">Semantic markup and structure</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">CSS3</span>
+                            <span class="tech-description">Modern styling with animations</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">JavaScript</span>
+                            <span class="tech-description">Dynamic functionality and API integration</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">GitHub API</span>
+                            <span class="tech-description">Real-time data from GitHub</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <h2>Key Features</h2>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Real-time GitHub data integration</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Responsive design for all devices</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Fast and efficient search functionality</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Beautiful animations and transitions</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>No registration or API keys required</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Open source and completely free</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 GitHub Finder. Built with ❤️ using GitHub API</p>
+        </div>
+    </footer>
+
+    <script src="script1.js"></script>
+</body>
+</html>
